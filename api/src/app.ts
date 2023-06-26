@@ -2,6 +2,7 @@ import express from "express";
 const bodyParser = require("body-parser");
 //Other require routes when exist
 const productsRoute = require("./routes/products");
+const usersRoute = require("./routes/users");
 
 
 const server = express();
@@ -16,6 +17,7 @@ server.use((_req, res, next) => {
     next();
   });
 server.use("/products", productsRoute);
+server.use("/users", usersRoute);
 
 
 server.use((err: any, _req: any, res: any, _next: any) => {
