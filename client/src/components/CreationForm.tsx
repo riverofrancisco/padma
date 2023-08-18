@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { addorEditLink,  deleteElement } from '../firebase';
 
 interface Product {
   name: string;
@@ -25,6 +25,7 @@ const ProductForm: React.FC = () => {
   };
 
   const handleSubmit = (event: React.FormEvent) => {
+    addorEditLink(productData)
     event.preventDefault();
     setProductData({
       name: '',

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from 'firebase/firestore'; 
+import { getFirestore, collection, addDoc, deleteDoc, doc, getDoc } from 'firebase/firestore'; 
 
 
 // Your web app's Firebase configuration
@@ -19,4 +19,12 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 
-  export const db = getFirestore(app);
+export const db = getFirestore(app);
+
+export const addorEditLink = async (linkObject: any) => {
+  await addDoc(collection(db, "products"), linkObject);
+  console. log('new task added')}
+
+export const deleteElement = async (linkObject: any) => {
+  await deleteDoc(doc(db, "links", linkObject));
+  console. log('new task added')}
