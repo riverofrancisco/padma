@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, addDoc, deleteDoc, doc, getDoc } from 'firebase/firestore'; 
+import { getFirestore, collection, addDoc, deleteDoc, doc, getDoc, onSnapshot, getDocs } from 'firebase/firestore'; 
 
 const {
   REACT_APP_APIKEY,
@@ -41,3 +41,9 @@ export const addorEditLink = async (linkObject: any) => {
 export const deleteElement = async (linkObject: any) => {
   await deleteDoc(doc(db, "links", linkObject));
   console. log('new task added')}
+
+export const getProducts = async () => {
+  const products = await getDocs(collection(db, "products"))
+  products.forEach((doc)=> console.log(`${doc.id}, ${doc.data()}`))
+  return products
+}
