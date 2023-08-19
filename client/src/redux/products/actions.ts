@@ -10,3 +10,12 @@ export const Adder = (amount: number): ThunkAction<
 > => {return (dispatch) => {
     return dispatch(reducer.valueAdder(amount))
 }}
+
+export const ProductsUpdater = (products: any): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {return (dispatch) => {
+    return dispatch(reducer.productsUpdate(products))
+}}

@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface InitialState {
     value: number,
     status: string,
+    products: any,
 }
 
 const initialState: InitialState = {
 value: 0,
 status: "ok",
+products: []
 }
 
 export const global = createSlice({
@@ -22,6 +24,9 @@ reducers: {
             state.status = "loading"
         } if(state.status === "loading")
         state.status = "ok"
+    },
+    productsUpdate: (state, {payload}) => {
+        state.products = payload
     }
 }
 

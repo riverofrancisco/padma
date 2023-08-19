@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, addDoc, deleteDoc, doc, getDoc, onSnapshot, getDocs } from 'firebase/firestore'; 
+import { getFirestore, collection, addDoc, deleteDoc, doc, getDoc, onSnapshot, getDocs, QuerySnapshot } from 'firebase/firestore'; 
 
 const {
   REACT_APP_APIKEY,
@@ -38,12 +38,24 @@ export const addorEditLink = async (linkObject: any) => {
   await addDoc(collection(db, "products"), linkObject);
   console. log('new task added')}
 
-export const deleteElement = async (linkObject: any) => {
-  await deleteDoc(doc(db, "links", linkObject));
-  console. log('new task added')}
-
+export const deleteProduct = async (id: any) => {
+  if (window.confirm("are you sure you want to delete this link?")) {
+    await deleteDoc(doc(db, "links", id));
+    console. log('new task deleted')}
+  }
+ 
 export const getProducts = async () => {
   const products = await getDocs(collection(db, "products"))
   products.forEach((doc)=> console.log(`${doc.id}, ${doc.data()}`))
   return products
 }
+
+export const onUpdate = async () => {
+  onSnapshot(collection(db, 'products'), (querySnapshot) => {
+    const products: any = [];
+    querySnapshot.forEach((doc) => {
+    console.log("Current data: ", doc.data());
+    products.push({...doc.data()})
+  });
+  return products
+});}

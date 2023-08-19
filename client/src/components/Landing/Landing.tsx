@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { Adder } from "../../redux/portfolio/actions";
+import { Adder } from "../../redux/products/actions";
 import Button from "@mui/material/Button";
 
 const LandingPage: React.FC = () => {

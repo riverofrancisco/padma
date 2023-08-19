@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {global} from "./portfolio/slice"
+import {global} from "./products/slice"
 
 export const store = configureStore({
     reducer: {

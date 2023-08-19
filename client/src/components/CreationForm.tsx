@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { addorEditLink,  deleteElement } from '../firebase';
+import { addorEditLink } from '../firebase';
+import { getProducts, onUpdate } from '../firebase';
 
 interface Product {
   name: string;
@@ -32,6 +33,7 @@ const ProductForm: React.FC = () => {
       description: '',
       price: '',
     });
+    
   };
 
   return (
