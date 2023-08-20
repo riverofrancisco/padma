@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { addorEditLink } from '../firebase';
 import { getProducts, onUpdate } from '../firebase';
+import { useAppSelector, useAppDispatch } from '../hooks/hooksRedux';
+import { ProductsUpdater } from '../redux/products/actions';
 
 interface Product {
   name: string;
@@ -9,6 +11,15 @@ interface Product {
 }
 
 const ProductForm: React.FC = () => {
+  const dispatch = useAppDispatch()
+
+  const getData = async () =>{
+    const productsData = await getProducts()
+    const productsArray = productsData.docs.map((doc) => ({id: doc.id, ...doc.data()}))
+    dispatch(ProductsUpdater(productsArray))
+  }
+
+
   const [productData, setProductData] = useState<Product>({
     name: '',
     description: '',
@@ -23,6 +34,7 @@ const ProductForm: React.FC = () => {
       ...productData,
       [name]: value,
     });
+    
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -33,7 +45,7 @@ const ProductForm: React.FC = () => {
       description: '',
       price: '',
     });
-    
+    getData()
   };
 
   return (

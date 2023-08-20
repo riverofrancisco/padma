@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { getProducts, onUpdate, deleteProduct } from '../firebase';
+import { useAppSelector, useAppDispatch } from '../hooks/hooksRedux';
+import { ProductsUpdater } from '../redux/products/actions';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -38,22 +40,23 @@ const rows = [
 
 
 export default function DataTable() {
-  const [products, setProducts] = React.useState<any[]>([]);
+  const dispatch = useAppDispatch()
+  const products = useAppSelector((state) => state.global.products)
   const [myColumns, setMyColumns] = React.useState([]);
     const getData = async () =>{
       const productsData = await getProducts()
       const productsArray = productsData.docs.map((doc) => ({id: doc.id, ...doc.data()}))
-      setProducts(productsArray)
+      dispatch(ProductsUpdater(productsArray))
     }
     
   
 
   React.useEffect(()=>{
     getData()
-    })
+    }, [])
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: "100%", width: '100%' }}>
       <DataGrid
         rows={products}
         columns={columns}
