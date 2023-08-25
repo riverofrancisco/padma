@@ -40,12 +40,14 @@ export const addorEditLink = async (linkObject: any) => {
 
 export const deleteProduct = async (id: any) => {
 
-
   if (window.confirm("are you sure you want to delete this link?")) {
     //await deleteDoc(doc(db, "links", id));
     window.alert(`Product ${id} deleted.`)
     console. log('new task deleted')}
+  
+  
   }
+
  
 export const getProducts = async () => {
   const products = await getDocs(collection(db, "products"))

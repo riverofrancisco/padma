@@ -20,7 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { getProducts, onUpdate } from '../firebase';
+import { getProducts, onUpdate, deleteProduct } from '../firebase';
 import { useAppSelector, useAppDispatch } from '../hooks/hooksRedux';
 import { ProductsUpdater } from '../redux/products/actions';
 
@@ -211,6 +211,7 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
+  const p = "task"
 
   return (
     <Toolbar
@@ -244,13 +245,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={(p) => deleteProduct(p)}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton>
+          <IconButton >
             <FilterListIcon />
           </IconButton>
         </Tooltip>
