@@ -25,11 +25,11 @@ import { useAppSelector, useAppDispatch } from '../hooks/hooksRedux';
 import { ProductsUpdater } from '../redux/products/actions';
 
 interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
+  id: string;
   name: string;
-  protein: number;
+  description: string;
+  price: number;
+  date: string;
 }
 
 /* function createData(
@@ -118,32 +118,32 @@ const headCells: readonly HeadCell[] = [
     id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'Product Name',
   },
   {
-    id: 'calories',
+    id: 'id',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'ID',
   },
   {
-    id: 'fat',
+    id: 'description',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Description',
   },
   {
-    id: 'carbs',
+    id: 'price',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Price',
   },
   {
-    id: 'protein',
+    id: 'date',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
-  },
+    label: 'Delivery Date',
+  }
 ];
 
 interface EnhancedTableProps {
@@ -166,6 +166,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
+      <TableCell align="right">N°</TableCell>
         <TableCell padding="checkbox">
           <Checkbox
             color="primary"
@@ -177,6 +178,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             }}
           />
         </TableCell>
+        
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -264,7 +266,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [orderBy, setOrderBy] = React.useState<keyof Data>('price');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -337,19 +339,17 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(products, getComparator(order, orderBy)).slice(
+  const [visibleRows, setVisibleRows] = React.useState<any[]>([]);
+
+
+  React.useEffect(() => {
+    getData().then(() => {
+      setVisibleRows(stableSort(products, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
-
-
-  React.useEffect(()=> {
-    getData()
-  }, [])
+        page * rowsPerPage + rowsPerPage
+      ));
+    });
+  }, [page]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -385,6 +385,7 @@ export default function EnhancedTable() {
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
+                    <TableCell align="right">{index + 1}</TableCell>
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
