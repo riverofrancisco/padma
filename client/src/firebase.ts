@@ -38,13 +38,13 @@ export const addorEditLink = async (linkObject: any) => {
   await addDoc(collection(db, "products"), linkObject);
   console. log('new task added')}
 
-export const deleteProduct = async (id: any) => {
+export const deleteProduct = async (element: any) => {
   if (window.confirm("are you sure you want to delete this link?")) {
-      if (Array.isArray(id)) {
-        id.forEach((element) => {window.alert(`Product ${element} deleted.`)
+      if (Array.isArray(element)) {
+        element.forEach((el) => {window.alert(`Product ${el.id} deleted.`)
     console. log('new task deleted')})
       } else {
-        window.alert(`Product ${id} deleted.`)
+        window.alert(`Product ${element.id} deleted.`)
     console. log('new task deleted')}
 
   

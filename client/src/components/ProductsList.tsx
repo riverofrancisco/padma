@@ -146,6 +146,9 @@ const headCells: readonly HeadCell[] = [
   }
 ];
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
@@ -205,13 +208,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 interface EnhancedTableToolbarProps {
   numSelected: number;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
-  const p = "task"
 
   return (
     <Toolbar
@@ -240,7 +245,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          PADMA DECÓ SALES
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -260,10 +265,9 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
@@ -382,7 +386,7 @@ export default function EnhancedTable() {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
