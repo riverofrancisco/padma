@@ -23,6 +23,9 @@ import { visuallyHidden } from '@mui/utils';
 import { getProducts, onUpdate, deleteProduct } from '../firebase';
 import { useAppSelector, useAppDispatch } from '../hooks/hooksRedux';
 import { ProductsUpdater } from '../redux/products/actions';
+import WaitingData from './Loaders/DataWaiter';
+import { format } from 'date-fns';
+
 
 interface Data {
   id: string;
@@ -274,7 +277,7 @@ export default function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState<keyof Data>('price');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const dispatch = useAppDispatch()
   const products = useAppSelector((state) => state.global.products)
@@ -344,17 +347,18 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
-  const [visibleRows, setVisibleRows] = React.useState<any[]>([]);
-
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(products, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage],
+  );
 
   React.useEffect(() => {
-    getData().then(() => {
-      setVisibleRows(stableSort(products, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ));
-    });
-  }, [page]);
+    getData();
+  }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -374,7 +378,7 @@ export default function EnhancedTable() {
               onRequestSort={handleRequestSort}
               rowCount={products.length}
             />
-            <TableBody>
+           <TableBody>
               {visibleRows.map((row: any, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -411,6 +415,7 @@ export default function EnhancedTable() {
                     <TableCell align="right">{row.id}</TableCell>
                     <TableCell align="right">{row.description}</TableCell>
                     <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">{row.createdAt && format(row.createdAt, 'dd/MM/yy')}</TableCell>
                   </TableRow>
                 );
               })}
@@ -426,6 +431,7 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
+
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 100]}
           component="div"

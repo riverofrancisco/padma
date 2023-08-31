@@ -36,7 +36,8 @@ export const db = getFirestore(app);
 
 export const addorEditLink = async (linkObject: any) => {
   await addDoc(collection(db, "products"), linkObject);
-  console. log('new task added')}
+  console. log('new task added')
+  console.log(linkObject)}
 
 export const deleteProduct = async (element: any) => {
   if (window.confirm("are you sure you want to delete this link?")) {

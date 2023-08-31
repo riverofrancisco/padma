@@ -8,9 +8,13 @@ interface Product {
   name: string;
   description: string;
   price: string;
+  createdAt: Date
 }
 
 const ProductForm: React.FC = () => {
+  const currentDateTime = new Date();
+
+  
   const dispatch = useAppDispatch()
 
   const getData = async () =>{
@@ -24,6 +28,7 @@ const ProductForm: React.FC = () => {
     name: '',
     description: '',
     price: '',
+    createdAt: currentDateTime
   });
 
   const handleInputChange = (
@@ -44,6 +49,7 @@ const ProductForm: React.FC = () => {
       name: '',
       description: '',
       price: '',
+      createdAt: currentDateTime
     });
     getData()
   };
