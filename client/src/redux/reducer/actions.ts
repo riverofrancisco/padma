@@ -19,3 +19,21 @@ export const ProductsUpdater = (products: any): ThunkAction<
 > => {return (dispatch) => {
     return dispatch(reducer.productsUpdate(products))
 }}
+
+export const employeesUpdater = (employees: any): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {return (dispatch) => {
+    return dispatch(reducer.employeesUpdate(employees))
+}}
+
+export const employeeSelector = (employee: any): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {return (dispatch) => {
+    return dispatch(reducer.employeeSelection(employee))
+}}

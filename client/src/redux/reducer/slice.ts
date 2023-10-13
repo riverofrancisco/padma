@@ -4,12 +4,22 @@ interface InitialState {
     value: number,
     status: string,
     products: any,
+    employees: any,
+    selectedEmployee: any
 }
 
 const initialState: InitialState = {
 value: 0,
 status: "ok",
-products: []
+products: [],
+employees: [],
+selectedEmployee: [{
+    id:"",
+    firstName: "prueba",
+    lastName: "",
+    role: "",
+    email: "",
+  }]
 }
 
 export const global = createSlice({
@@ -27,6 +37,12 @@ reducers: {
     },
     productsUpdate: (state, {payload}) => {
         state.products = payload
+    },
+    employeesUpdate: (state, {payload}) => {
+        state.employees = payload
+    },
+    employeeSelection: (state, {payload}) => {
+        state.selectedEmployee = payload
     }
 }
 
