@@ -29,11 +29,3 @@ export const employeesUpdater = (employees: any): ThunkAction<
     return dispatch(reducer.employeesUpdate(employees))
 }}
 
-export const employeeSelector = (employee: any): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  AnyAction
-> => {return (dispatch) => {
-    return dispatch(reducer.employeeSelection(employee))
-}}

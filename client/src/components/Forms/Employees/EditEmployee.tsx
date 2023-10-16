@@ -3,18 +3,21 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { Employee } from "../../../middlewares/employees/add";
 import { setEmployee } from "../../../middlewares/employees/edit";
 
+interface Props {
+  selectedEmployee: any;
+  refresh: any
+}
 
-
-const EditEmployee: React.FC = () => {
+const EditEmployee = ({ selectedEmployee, refresh }: Props) => {
   const dispatch = useAppDispatch();
-  const currentEmployee = useAppSelector((state) => state.global.selectedEmployee);
+  const id = selectedEmployee.id;
 
   const [employeeData, setEmployeeData] = useState({
-    id: currentEmployee.id,
-    firstName: currentEmployee.firstName,
-    lastName: currentEmployee.lastName,
-    role: currentEmployee.role,
-    email: currentEmployee.email,
+    id: selectedEmployee.id,
+    firstName: selectedEmployee.firstName,
+    lastName: selectedEmployee.lastName,
+    role: selectedEmployee.role,
+    email: selectedEmployee.email,
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +30,20 @@ const EditEmployee: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setEmployee(employeeData)
-    
+    setEmployee(id, employeeData);
+    setEmployeeData({
+      id: "",
+      firstName: "",
+      lastName: "",
+      role: "",
+      email: "",
+    });
+    refresh()
   };
+
+  React.useEffect(()=>{
+    setEmployeeData(selectedEmployee)
+  }, [selectedEmployee])
 
   return (
     <form onSubmit={handleSubmit}>

@@ -2,11 +2,14 @@ import * as React from "react";
 import { getEmployees } from "../../../middlewares/employees/get";
 import { deleteEmployee } from "../../../middlewares/employees/delete";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { employeeSelector, employeesUpdater } from "../../../redux/reducer/actions";
+import { employeesUpdater } from "../../../redux/reducer/actions";
+import EditEmployee from "../../Forms/Employees/EditEmployee";
 
 const EmployeesList: React.FC = () => {
   const dispatch = useAppDispatch();
   const employees = useAppSelector((state) => state.global.employees);
+  const [selectedEmployee, setSelectedEmployee] = React.useState({})
+  
   
   const getData = async () => {
     const emp = await getEmployees();
@@ -20,15 +23,16 @@ const EmployeesList: React.FC = () => {
   }
 
   const handleEdit = (id: string) => {
-    const selectedEmployee = employees.filter((employee: any)=> employee.id === id);
-    dispatch(employeeSelector(selectedEmployee))
+    const employeeToEdit = employees.filter((employee: any)=> employee.id === id)[0];
+    setSelectedEmployee(employeeToEdit)
   }
 
   React.useEffect(() => {
     getData();
   }, []);
   return employees[0] ? (
-    employees.map((emp: any) => (
+    <div>
+{employees.map((emp: any) => (
       <div key={emp.id}>
         <div>{emp.role}</div>
         <div>{emp.firstName}</div>
@@ -38,7 +42,11 @@ const EmployeesList: React.FC = () => {
         <button value={emp.id} onClick={()=> handleEdit(emp.id)} >Edit</button>
         <button value={emp.id} onClick={()=> handleDelete(emp.id)}>X</button>
       </div>
-    ))
+    ))}
+    <EditEmployee selectedEmployee={selectedEmployee} refresh={getData}/>
+   
+    </div>
+    
   ) : (
     <div>Loading...</div>
   );

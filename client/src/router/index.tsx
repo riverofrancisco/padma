@@ -10,7 +10,6 @@ export const AppRouter = () => {
         <Route path={`/`} element={<CreateEmployee />} />
       </Routes>
       <EmployeesList />
-      <EditEmployee />
     </div>
   );
 };
