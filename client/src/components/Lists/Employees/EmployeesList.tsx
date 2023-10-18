@@ -4,8 +4,13 @@ import { deleteEmployee } from "../../../middlewares/employees/delete";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import { employeesUpdater } from "../../../redux/reducer/actions";
 import EditEmployee from "../../Forms/Employees/EditEmployee";
+import LogoutButton from "../../Forms/Login/Logout";
 
-const EmployeesList: React.FC = () => {
+interface Props {
+  setIsAuthenticated: any;
+}
+
+const EmployeesList = ({ setIsAuthenticated }: Props) => {
   const dispatch = useAppDispatch();
   const employees = useAppSelector((state) => state.global.employees);
   const [selectedEmployee, setSelectedEmployee] = React.useState({})
@@ -32,6 +37,7 @@ const EmployeesList: React.FC = () => {
   }, []);
   return employees[0] ? (
     <div>
+      <LogoutButton setIsAuthenticated={setIsAuthenticated}/>
 {employees.map((emp: any) => (
       <div key={emp.id}>
         <div>{emp.role}</div>

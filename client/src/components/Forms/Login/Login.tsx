@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
-import { isAuth } from "../../../middlewares/login/auth";
+import Swal from "sweetalert2";
+import { signIn, signUp } from "../../../middlewares/auth/auth";
 
+interface Props {
+  setIsAuthenticated: any;
+}
 
-const LoginForm: React.FC = () => {
+const LoginForm = ({ setIsAuthenticated }: Props) => {
   const dispatch = useAppDispatch();
-  const currentEmployees = useAppSelector((state) => state.global.employees);
 
   const [loginData, setLoginData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,11 +25,78 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setLoginData({
-      email: "",
-      password: ""
-    });
-    
+    const activeElement = document.activeElement as HTMLInputElement;
+    if (activeElement && activeElement.name === "Login") {
+      try {
+        signIn(loginData.email, loginData.password).then(() => {
+          Swal.fire({
+            timer: 1500,
+            showConfirmButton: false,
+            willOpen: () => {
+              Swal.showLoading();
+            },
+            willClose: () => {
+              setIsAuthenticated(true);
+
+              Swal.fire({
+                icon: "success",
+                title: "Successfully logged in!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            },
+          });
+          setLoginData({
+            email: "",
+            password: "",
+          });
+        });
+      } catch (error) {
+        Swal.fire({
+          timer: 1500,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+          willClose: () => {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: "Incorrect email or password.",
+              showConfirmButton: true,
+            });
+          },
+        });
+        console.log({ Error: error });
+      }
+    } else if (activeElement && activeElement.name === "Register") {
+      try {
+        signUp(loginData.email, loginData.password);
+        Swal.fire({
+          timer: 1500,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+          willClose: () => {
+            setIsAuthenticated(true);
+
+            Swal.fire({
+              icon: "success",
+              title: "Successfully registered and logged in!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            setLoginData({
+              email: "",
+              password: "",
+            });
+          },
+        });
+      } catch (error) {
+        console.log({ Error: error });
+      }
+    }
   };
 
   return (
@@ -36,7 +106,7 @@ const LoginForm: React.FC = () => {
           Email
           <input
             type="text"
-            name="firstName"
+            name="email"
             value={loginData.email}
             onChange={handleInputChange}
             required
@@ -47,16 +117,27 @@ const LoginForm: React.FC = () => {
         <label>
           Password
           <input
-            type="text"
-            name="lastName"
+            type="password"
+            name="password"
             value={loginData.password}
             onChange={handleInputChange}
             required
           />
         </label>
       </div>
-      
-      <button type="submit">Login</button>
+
+      <input
+        style={{ marginTop: "12px", marginLeft: "12px" }}
+        type="submit"
+        value="Login"
+        name="Login"
+      />
+      <input
+        style={{ marginTop: "12px", marginLeft: "12px" }}
+        type="submit"
+        value="Register"
+        name="Register"
+      />
     </form>
   );
 };
