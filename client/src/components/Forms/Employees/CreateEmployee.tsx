@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { Employee, addEmployee } from "../../../middlewares/employees/add";
 import { employeesUpdater } from "../../../redux/reducer/actions";
+import { Link } from "react-router-dom";
 
 
 const CreateEmployee: React.FC = () => {
@@ -88,6 +89,7 @@ const CreateEmployee: React.FC = () => {
         </label>
       </div>
       <button type="submit">Create employee</button>
+      <Link to={'/'}><button>Go Back To List</button></Link>
     </form>
   );
 };

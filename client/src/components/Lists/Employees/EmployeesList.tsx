@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import { employeesUpdater } from "../../../redux/reducer/actions";
 import EditEmployee from "../../Forms/Employees/EditEmployee";
 import LogoutButton from "../../Forms/Login/Logout";
+import { Link } from "react-router-dom";
 
 interface Props {
   setIsAuthenticated: any;
@@ -41,6 +42,7 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
   }, []);
   return employees[0] ? (
     <div>
+      <Link to={'/createEmployee'}><button>Create Employee</button></Link>
       <LogoutButton setIsAuthenticated={setIsAuthenticated}/>
 {employees.map((emp: any) => (
       <div key={emp.id}>
