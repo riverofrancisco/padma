@@ -13,7 +13,11 @@ interface Props {
 const EmployeesList = ({ setIsAuthenticated }: Props) => {
   const dispatch = useAppDispatch();
   const employees = useAppSelector((state) => state.global.employees);
-  const [selectedEmployee, setSelectedEmployee] = React.useState({})
+  const [selectedEmployee, setSelectedEmployee] = React.useState({ id: "",
+  firstName: "",
+  lastName: "",
+  role: "",
+  email: "",})
   
   
   const getData = async () => {
