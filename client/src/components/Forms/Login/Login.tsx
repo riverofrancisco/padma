@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import Swal from "sweetalert2";
-import { signIn, signUp } from "../../../middlewares/auth/auth";
+import { signIn, signUp, singInWithGoogle } from "../../../middlewares/auth/auth";
 
 interface Props {
   setIsAuthenticated: any;
@@ -9,6 +9,11 @@ interface Props {
 
 const LoginForm = ({ setIsAuthenticated }: Props) => {
   const dispatch = useAppDispatch();
+
+  const handleGoogle = async () =>{
+    await singInWithGoogle()
+    setIsAuthenticated(true);
+  }
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -138,6 +143,7 @@ const LoginForm = ({ setIsAuthenticated }: Props) => {
         value="Register"
         name="Register"
       />
+      <button onClick={handleGoogle}>Sing In With Google</button>
     </form>
   );
 };
