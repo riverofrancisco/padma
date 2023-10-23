@@ -11,7 +11,12 @@ const initialState: InitialState = {
 value: 0,
 status: "ok",
 products: [],
-employees: [],
+employees: {list: [],
+selectedEmployee: { id: "",
+firstName: "",
+lastName: "",
+role: "",
+email: ""}},
 
 }
 
@@ -31,9 +36,12 @@ reducers: {
     productsUpdate: (state, {payload}) => {
         state.products = payload
     },
-    employeesUpdate: (state, {payload}) => {
-        state.employees = payload
-    }
+    employeesListUpdate: (state, {payload}) => {
+        state.employees.list = payload
+    },
+    selectedEmployee: (state, {payload}) => {
+        state.employees.selectedEmployee = payload
+    },
 }
 })
 

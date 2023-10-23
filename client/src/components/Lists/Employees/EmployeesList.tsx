@@ -2,7 +2,7 @@ import * as React from "react";
 import { getEmployees } from "../../../middlewares/employees/get";
 import { deleteEmployee } from "../../../middlewares/employees/delete";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { employeesUpdater } from "../../../redux/reducer/actions";
+import { employeeSelector, employeesUpdater } from "../../../redux/reducer/actions";
 import EditEmployee from "../../Forms/Employees/EditEmployee";
 import LogoutButton from "../../Forms/Login/Logout";
 import { Link } from "react-router-dom";
@@ -13,7 +13,8 @@ interface Props {
 
 const EmployeesList = ({ setIsAuthenticated }: Props) => {
   const dispatch = useAppDispatch();
-  const employees = useAppSelector((state) => state.global.employees);
+  const employees = useAppSelector((state) => state.global.employees.list);
+  const currentEmployee = useAppSelector((state) => state.global.employees.selectedEmployee);
   const [selectedEmployee, setSelectedEmployee] = React.useState({ id: "",
   firstName: "",
   lastName: "",
@@ -34,7 +35,7 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
 
   const handleEdit = (id: string) => {
     const employeeToEdit = employees.filter((employee: any)=> employee.id === id)[0];
-    setSelectedEmployee(employeeToEdit)
+    dispatch(employeeSelector(employeeToEdit))
   }
 
   React.useEffect(() => {
@@ -51,12 +52,11 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
         <div>{emp.lastName}</div>
         <div>{emp.email}</div>
 
-        <button value={emp.id} onClick={()=> handleEdit(emp.id)} >Edit</button>
+        <Link to={'/editEmployee'}><button value={emp.id} onClick={()=> handleEdit(emp.id)} >Edit</button></Link>
         <button value={emp.id} onClick={()=> handleDelete(emp.id)}>X</button>
       </div>
     ))}
-    <EditEmployee selectedEmployee={selectedEmployee} refresh={getData}/>
-   
+    
     </div>
     
   ) : (

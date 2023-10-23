@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { Employee, addEmployee } from "../../../middlewares/employees/add";
 import { employeesUpdater } from "../../../redux/reducer/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const CreateEmployee: React.FC = () => {
   const dispatch = useAppDispatch();
-  const currentEmployees = useAppSelector((state) => state.global.employees);
+  const navigate = useNavigate();
+  const currentEmployees = useAppSelector((state) => state.global.employees.list);
 
   const [employeeData, setEmployeeData] = useState<Employee>({
     firstName: "",
@@ -35,7 +36,7 @@ const CreateEmployee: React.FC = () => {
       role: "",
       email: "",
     });
-    
+    navigate('/')
   };
 
   return (

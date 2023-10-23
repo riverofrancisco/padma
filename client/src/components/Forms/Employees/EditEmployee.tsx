@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { Employee } from "../../../middlewares/employees/add";
 import { setEmployee } from "../../../middlewares/employees/edit";
+import { Link, useNavigate} from "react-router-dom";
 
 interface Props {
-  selectedEmployee: any;
-  refresh: any
+  refresh: any;
 }
 
-const EditEmployee = ({ selectedEmployee, refresh }: Props) => {
+const EditEmployee = ({ refresh }: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const selectedEmployee = useAppSelector(
+    (state) => state.global.employees.selectedEmployee
+  );
   const id = selectedEmployee.id;
 
   const [employeeData, setEmployeeData] = useState({
@@ -38,12 +42,13 @@ const EditEmployee = ({ selectedEmployee, refresh }: Props) => {
       role: "",
       email: "",
     });
-    refresh()
+    refresh();
+    navigate('/')
   };
 
-  React.useEffect(()=>{
-    setEmployeeData(selectedEmployee)
-  }, [selectedEmployee])
+  React.useEffect(() => {
+    setEmployeeData(selectedEmployee);
+  }, [selectedEmployee]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -95,7 +100,15 @@ const EditEmployee = ({ selectedEmployee, refresh }: Props) => {
           />
         </label>
       </div>
-      <button type="submit">Update employee</button>
+      
+        <button type="submit">
+          Update employee
+        </button>
+      
+      <Link to={"/"}>
+        {" "}
+        <button>Go Back To List</button>
+      </Link>
     </form>
   );
 };

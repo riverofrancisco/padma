@@ -4,10 +4,19 @@ import EmployeesList from "../components/Lists/Employees/EmployeesList";
 import CreateEmployee from "../components/Forms/Employees/CreateEmployee";
 import EditEmployee from "../components/Forms/Employees/EditEmployee";
 import LoginForm from "../components/Forms/Login/Login";
+import { getEmployees } from "../middlewares/employees/get";
+import { useAppDispatch } from "../hooks/hooksRedux";
+import { employeesUpdater } from "../redux/reducer/actions";
 
 export const AppRouter = () => {
-
+const dispatch= useAppDispatch()
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  const getData = async () => {
+    const emp = await getEmployees();
+    dispatch(employeesUpdater(emp));
+  };
+
 
   useEffect(() => {
     const isAuthenticatedString = localStorage.getItem('is_authenticated');
@@ -28,7 +37,7 @@ if (isAuthenticatedString !== null) {
     <div>
       {isAuthenticated ?<Routes>
         <Route path={`/createEmployee`} element={<CreateEmployee />} />
-      
+        <Route path={`/editEmployee`} element={<EditEmployee refresh={getData}/>} />
         <Route path={`/`} element={<EmployeesList setIsAuthenticated={setIsAuthenticated}/>} />
         
       </Routes>: <LoginForm setIsAuthenticated={setIsAuthenticated} />  }
