@@ -1,23 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Sale, Product, Client } from "../../interfaces/interfaces";
 
 interface InitialState {
     value: number,
     status: string,
-    products: any,
     employees: any,
+    sales: Sale[],
+    clients: Client[],
+    products: Product[]
 }
 
 const initialState: InitialState = {
 value: 0,
 status: "ok",
 products: [],
-employees: {list: [],
-selectedEmployee: { id: "",
-firstName: "",
-lastName: "",
-role: "",
-email: ""}},
-
+employees: {
+    list: [],
+    selectedEmployee: { id: "",
+                        firstName: "",
+                        lastName: "",
+                        role: "",
+                        email: ""}},
+sales: [],
+clients: []
 }
 
 export const global = createSlice({
@@ -41,6 +46,9 @@ reducers: {
     },
     selectedEmployee: (state, {payload}) => {
         state.employees.selectedEmployee = payload
+    },
+    salesListUpdate: (state, {payload}) => {
+        state.sales = payload
     },
 }
 })

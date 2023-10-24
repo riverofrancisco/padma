@@ -37,3 +37,12 @@ export const employeeSelector = (employee: any): ThunkAction<
 > => {return (dispatch) => {
     return dispatch(reducer.selectedEmployee(employee))
 }}
+
+export const salesUpdater = (sales: any): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {return (dispatch) => {
+    return dispatch(reducer.salesListUpdate(sales))
+}}
