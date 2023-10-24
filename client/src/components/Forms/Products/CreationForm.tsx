@@ -5,9 +5,9 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { ProductsUpdater } from "../../../redux/reducer/actions";
 
 interface Product {
+  id: string;
   name: string;
   description: string;
-  price: string;
   createdAt: Date;
 }
 
