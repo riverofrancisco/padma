@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface Sale {
-    id: number,
+    id: string,
     cart: Product[],
     client: Client,
     date: string,
@@ -31,3 +31,35 @@ export interface Client {
  province: string,
  phone: string,
 }
+
+export const blankClient: Client = {
+    name: "",
+    lastName: "",
+    address: "",
+    location: "",
+    postalcode: 0,
+    province: "",
+    phone: "",
+  };
+  
+ export const blankProduct: Product = {
+    model: "",
+    lateral: false,
+    height: 0,
+    length: 0,
+    fabric: "",
+    colour: "",
+  };
+  
+ export const blankSaleState: Sale = {
+    id: "0",
+    cart: [blankProduct],
+    client: blankClient,
+    date: "",
+    delivery: {
+      company: "padma",
+      cost: 0,
+      date: "",
+    },
+    isDelivered: false,
+  };

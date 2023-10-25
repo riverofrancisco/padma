@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Sale, Product, Client } from "../../interfaces/interfaces";
+import { Sale, Product, Client, blankClient, blankProduct, blankSaleState } from "../../interfaces/interfaces";
+
 
 interface InitialState {
     value: number,
     status: string,
     employees: any,
-    sales: Sale[],
+    sales: { list: Sale[], selectedSale: Sale},
     clients: Client[],
     products: Product[]
 }
@@ -21,7 +22,9 @@ employees: {
                         lastName: "",
                         role: "",
                         email: ""}},
-sales: [],
+sales: {
+    list: [],
+    selectedSale: blankSaleState},
 clients: []
 }
 
@@ -48,7 +51,10 @@ reducers: {
         state.employees.selectedEmployee = payload
     },
     salesListUpdate: (state, {payload}) => {
-        state.sales = payload
+        state.sales.list = payload
+    },
+    selectedSale: (state, {payload}) => {
+        state.sales.selectedSale = payload
     },
 }
 })

@@ -8,6 +8,7 @@ import { Sale, Product, Client } from "../../../interfaces/interfaces";
 import { addSale } from "../../../middlewares/sales/add";
 import { current } from "@reduxjs/toolkit";
 
+import { blankClient, blankSaleState, blankProduct } from "../../../interfaces/interfaces";
 import {
   Box,
   InputAdornment,
@@ -20,42 +21,12 @@ import {
   FormControlLabel,
 } from "@mui/material/";
 
-const blankClient: Client = {
-  name: "",
-  lastName: "",
-  address: "",
-  location: "",
-  postalcode: 0,
-  province: "",
-  phone: "",
-};
 
-const blankProduct: Product = {
-  model: "",
-  lateral: false,
-  height: 0,
-  length: 0,
-  fabric: "",
-  colour: "",
-};
-
-const blankSaleState: Sale = {
-  id: 0,
-  cart: [blankProduct],
-  client: blankClient,
-  date: "",
-  delivery: {
-    company: "padma",
-    cost: 0,
-    date: "",
-  },
-  isDelivered: false,
-};
 
 const AddSale: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const sales = useAppSelector((state) => state.global.sales);
+  const sales = useAppSelector((state) => state.global.sales.list);
 
   const [clientData, setClientData] = useState<Client>(blankClient);
   const [productData, setProductData] = useState<Product>(blankProduct);
@@ -281,8 +252,8 @@ const AddSale: React.FC = () => {
       <Button type="submit" variant="contained">
         Confirm New Sale
       </Button>
-      <Link to={"/"}>
-        <Button>Go Back To List</Button>
+      <Link to={"/sales"}>
+        <Button variant="outlined">Go Back To List</Button>
       </Link>
     </form>
   );

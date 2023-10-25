@@ -46,3 +46,12 @@ export const salesUpdater = (sales: any): ThunkAction<
 > => {return (dispatch) => {
     return dispatch(reducer.salesListUpdate(sales))
 }}
+
+export const saleSelector = (sale: any): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {return (dispatch) => {
+    return dispatch(reducer.selectedSale(sale))
+}}

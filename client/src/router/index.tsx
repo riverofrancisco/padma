@@ -8,6 +8,7 @@ import { getEmployees } from "../middlewares/employees/get";
 import { useAppDispatch } from "../hooks/hooksRedux";
 import { employeesUpdater } from "../redux/reducer/actions";
 import AddSale from "../components/Forms/Sales/NewSale";
+import SalesList from "../components/Lists/Sales/SalesList";
 
 export const AppRouter = () => {
 const dispatch= useAppDispatch()
@@ -40,6 +41,7 @@ if (isAuthenticatedString !== null) {
         <Route path={`/createEmployee`} element={<CreateEmployee />} />
         <Route path={`/editEmployee`} element={<EditEmployee refresh={getData}/>} />
         <Route path={'/addSale'} element={<AddSale />}/>
+        <Route path={'/sales'} element={<SalesList setIsAuthenticated={setIsAuthenticated}/>}/>
         <Route path={`/`} element={<EmployeesList setIsAuthenticated={setIsAuthenticated}/>} />
         
       </Routes>: <LoginForm setIsAuthenticated={setIsAuthenticated} />  }
