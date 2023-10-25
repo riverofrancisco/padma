@@ -38,7 +38,12 @@ const UpdateSale = ({ refresh }: Props) => {
   const id = currentSale.id;
 
   const [clientData, setClientData] = useState<Client>(currentSale.client);
-  const [productData, setProductData] = useState<Product>(currentSale.cart[0]);
+  const [deliveryData, setDeliveryData] = useState({
+    company: currentSale.delivery.company,
+      cost: currentSale.delivery.cost,
+      date: currentSale.delivery.date,
+  });
+  const [productData, setProductData] = useState<Product>(currentSale.product);
   const [saleData, setSaleData] = useState<Sale>(currentSale);
 
   const handleProductChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +59,7 @@ const UpdateSale = ({ refresh }: Props) => {
         [name]: value,
       });
     }
-    console.log(saleData.cart[0]);
+    console.log(saleData.product);
   };
 
   const handleClientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +69,14 @@ const UpdateSale = ({ refresh }: Props) => {
       [name]: value,
     });
    
+  };
+  const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setDeliveryData({
+      ...deliveryData,
+      [name]: value,
+    });
+
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -81,16 +94,15 @@ const UpdateSale = ({ refresh }: Props) => {
     setSaleData({
       ...saleData,
       client: clientData,
-      cart: [productData]
+      product: productData,
+      delivery: deliveryData
     });
   }, [productData, clientData]);
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box
-        sx={{ display: "flex", flexDirection: "column", px: "15%", pt: "10%" }}
-        id="clientInfo"
-      >
+    <Box sx={{ px: "15%", py: "5%" }} id="clientInfo">
+      <Box sx={{ display: "flex", flexDirection: "column", border: 0.5, borderRadius: 3, p:2, backgroundColor:"whitesmoke"  }}>
         Client Info
         <Box>
           <TextField
@@ -136,127 +148,177 @@ const UpdateSale = ({ refresh }: Props) => {
             sx={{ my: 2, mx: 1, width: "45%" }}
             required
           />
-        </Box>
-        <Box>
-          <TextField
-            label="Postal Code"
-            type="number"
-            name="postalcode"
-            value={clientData.postalcode}
-            onChange={handleClientChange}
-            variant="standard"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />
-          <TextField
-            label="Province"
-            type="text"
-            name="province"
-            value={clientData.province}
-            onChange={handleClientChange}
-            variant="standard"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />
-          <TextField
-            label="Phone Number"
-            type="text"
-            name="phone"
-            value={clientData.phone}
-            onChange={handleClientChange}
-            variant="standard"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />
-        </Box>
-      </Box>
-      <Box
-        sx={{ display: "flex", flexDirection: "column", px: "15%" }}
-        id="productInfo"
-      >
-        Product Info
-        <Box>
-          <TextField
-            label="Model"
-            type="text"
-            name="model"
-            value={productData.model}
-            onChange={handleProductChange}
-            variant="filled"
-            size="small"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />{" "}
-          <TextField
-            label="Tela"
-            type="text"
-            name="fabric"
-            value={productData.fabric}
-            onChange={handleProductChange}
-            variant="filled"
-            size="small"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />
-          <TextField
-            label="Colour"
-            type="text"
-            name="colour"
-            value={productData.colour}
-            onChange={handleProductChange}
-            variant="filled"
-            size="small"
-            sx={{ my: 2, mx: 0.5, width: "30%" }}
-            required
-          />
-        </Box>
-        <Box>
-          <FormControl>
-            <FilledInput
-              type="number"
-              name="height"
-              value={productData.height}
-              onChange={handleProductChange}
-              size="small"
-              sx={{ mx: 0.5 }}
-              endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-              required
-            />{" "}
-            <FormHelperText>Height</FormHelperText>{" "}
-          </FormControl>
-          <FormControl>
-            <FilledInput
-              type="number"
-              name="length"
-              value={productData.length}
-              onChange={handleProductChange}
-              size="small"
-              sx={{ mx: 0.5 }}
-              endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-              required
-            />{" "}
-            <FormHelperText>Length</FormHelperText>{" "}
-          </FormControl>
-          <FormControlLabel
-            control={
-              <Switch
-                name="lateral"
-                checked={productData.lateral}
-                onChange={handleProductChange}
-              />
-            }
-            label="Lateral"
-          />
-        </Box>
-      </Box>
 
-      <Button type="submit" variant="contained">
-        Update Sale
-      </Button>
-      <Link to={"/sales"}>
-        <Button variant="outlined">Go Back To List</Button>
-      </Link>
-    </form>
+          <Box>
+            <TextField
+              label="Postal Code"
+              type="number"
+              name="postalcode"
+              value={clientData.postalcode}
+              onChange={handleClientChange}
+              variant="standard"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+            <TextField
+              label="Province"
+              type="text"
+              name="province"
+              value={clientData.province}
+              onChange={handleClientChange}
+              variant="standard"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+            <TextField
+              label="Phone Number"
+              type="text"
+              name="phone"
+              value={clientData.phone}
+              onChange={handleClientChange}
+              variant="standard"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+          </Box>
+        </Box>
+        <Box
+          sx={{ display: "flex", flexDirection: "column" }}
+          id="productInfo"
+        >
+          Product Info
+          <Box>
+            <TextField
+              label="Model"
+              type="text"
+              name="model"
+              value={productData.model}
+              onChange={handleProductChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />{" "}
+            <TextField
+              label="Tela"
+              type="text"
+              name="fabric"
+              value={productData.fabric}
+              onChange={handleProductChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+            <TextField
+              label="Colour"
+              type="text"
+              name="colour"
+              value={productData.colour}
+              onChange={handleProductChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+          </Box>
+          <Box>
+            <FormControl>
+              <FilledInput
+                type="number"
+                name="height"
+                value={productData.height}
+                onChange={handleProductChange}
+                size="small"
+                sx={{ mx: 0.5 }}
+                endAdornment={
+                  <InputAdornment position="end">cm</InputAdornment>
+                }
+                required
+              />{" "}
+              <FormHelperText>Height</FormHelperText>{" "}
+            </FormControl>
+            <FormControl>
+              <FilledInput
+                type="number"
+                name="length"
+                value={productData.length}
+                onChange={handleProductChange}
+                size="small"
+                sx={{ mx: 0.5 }}
+                endAdornment={
+                  <InputAdornment position="end">cm</InputAdornment>
+                }
+                required
+              />{" "}
+              <FormHelperText>Length</FormHelperText>{" "}
+            </FormControl>
+            <FormControlLabel
+              sx={{ mx: 3 }}
+              control={
+                <Switch
+                  name="lateral"
+                  checked={productData.lateral}
+                  onChange={handleProductChange}
+                />
+              }
+              label="Lateral"
+            />
+          </Box>
+          Delivery Info
+          <Box>
+            <TextField
+              label="Company"
+              type="text"
+              name="company"
+              value={deliveryData.company}
+              onChange={handleDeliveryChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+
+            <TextField
+              label="Price"
+              type="number"
+              name="cost"
+              value={deliveryData.cost}
+              onChange={handleDeliveryChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+              required
+            />
+            <TextField
+              label="Date to Deliver"
+              type="date"
+              name="date"
+              value={deliveryData.date}
+              onChange={handleDeliveryChange}
+              variant="filled"
+              size="small"
+              sx={{ my: 2, mx: 0.5, width: "30%" }}
+              required
+            />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Button type="submit" variant="contained" color="success">
+              Update Sale
+            </Button>
+            <Link to={"/sales"}>
+              <Button variant="outlined" color="warning">Go Back To List</Button>
+            </Link>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  </form>
   );
 };
 

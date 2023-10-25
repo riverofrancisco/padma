@@ -28,7 +28,8 @@ interface Props {
 }
 
 interface Column {
-  id: "name" | "address" | "model" | "colour" | "lateral" | "isDelivered";
+  id: string;
+  upper?: "client" | "product"| "delivery";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -36,33 +37,55 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "name", label: "Full Name",  align: "left",  minWidth: 170 },
-  { id: "address", label: "Address", align: "left", minWidth: 100 },
+  { id: "name",  upper: "client", label: "Full Name",  align: "left",  minWidth: 170 },
+  { id: "address",  upper: "client",label: "Address", align: "left", minWidth: 100 },
   {
     id: "model",
+    upper: "product",
     label: "Model",
-    minWidth: 170,
+    minWidth: 50,
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "colour",
+    id: "colour", upper: "product",
     label: "Colour",
-    minWidth: 170,
+    minWidth: 50,
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "lateral",
+    id: "lateral", upper: "product",
     label: "With Lateral",
-    minWidth: 170,
+    minWidth: 50,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "isDelivered",
     label: "Estado",
-    minWidth: 170,
+    minWidth: 50,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "date",
+    label: "Date Agreed",
+    minWidth: 50,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "company",
+    label: "Delivery Details",
+    minWidth: 50,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "isDelivered",
+    label: "Estado",
+    minWidth: 50,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
@@ -105,6 +128,7 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
             <TableRow>
             
               {columns.map((column) => (
+                
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -143,9 +167,9 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
                   {row.client.lastName}, {row.client.name}
                   </TableCell>
                   <TableCell key={row.id} align={"left"}>{row.client.address}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.cart[0].model}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.cart[0].colour}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.cart[0].lateral ? "Sí" : ""}</TableCell>
+                  <TableCell key={row.id} align={"center"}>{row.product.model}</TableCell>
+                  <TableCell key={row.id} align={"center"}>{row.product.colour}</TableCell>
+                  <TableCell key={row.id} align={"center"}>{row.product.lateral ? "Sí" : ""}</TableCell>
                   <TableCell key={row.id} align={"center"}>
                     {row.isDelivered ? "Entregado" : "Pendiente de Entrega"}
                   </TableCell >

@@ -2,7 +2,7 @@ import { Timestamp } from "firebase/firestore";
 
 export interface Sale {
    
-    cart: Product[],
+    product: Product,
     client: Client,
     date: string,
     delivery: {
@@ -52,13 +52,13 @@ export const blankClient: Client = {
   };
   
  export const blankSaleState = {
-    cart: [blankProduct],
+    product: blankProduct,
     client: blankClient,
     date: "",
     delivery: {
       company: "padma",
       cost: 0,
-      date: "",
+      date: "2023-04-24",
     },
     isDelivered: false,
   };
