@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import { salesUpdater} from "../../../redux/reducer/actions";
 import { Link, useNavigate } from "react-router-dom";
 import { Sale, Product, Client } from "../../../interfaces/interfaces";
-import { addSale } from "../../../middlewares/sales/add";
+import { setSale } from "../../../middlewares/sales/edit";
 import { current } from "@reduxjs/toolkit";
 
 import { blankClient, blankSaleState, blankProduct } from "../../../interfaces/interfaces";
@@ -21,24 +21,20 @@ import {
   FormControlLabel,
 } from "@mui/material/";
 
+interface Props {
+    refresh: any;
+  }
 
-
-const AddSale: React.FC = () => {
+const UpdateSale = ({ refresh }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const sales = useAppSelector((state) => state.global.sales.list);
+  const currentSale = useAppSelector((state) => state.global.sales.selectedSale);
+  const id = currentSale.id;
 
-  const [clientData, setClientData] = useState<Client>(blankClient);
-  const [productData, setProductData] = useState<Product>(blankProduct);
-  const [saleData, setSaleData] = useState<Sale>(blankSaleState);
+  const [clientData, setClientData] = useState<Client>(currentSale.client);
+  const [productData, setProductData] = useState<Product>(currentSale.cart[0]);
+  const [saleData, setSaleData] = useState<Sale>(currentSale);
 
-  const handleSaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setSaleData({
-      ...saleData,
-      [name]: value,
-    });
-  };
 
   const handleProductChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -75,12 +71,19 @@ const AddSale: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newSales = [...sales, saleData];
-    addSale(saleData);
-    dispatch(salesUpdater(newSales));
+    setSale(id, saleData);
     setSaleData(blankSaleState);
+    setProductData(blankProduct);
+    setClientData(blankClient);
+    refresh();
     navigate("/sales");
   };
+
+
+  React.useEffect(() => {
+    setSaleData(currentSale);
+  }, [currentSale]);
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -235,7 +238,7 @@ const AddSale: React.FC = () => {
             <FormHelperText>Length</FormHelperText>{" "}
           </FormControl>
           <FormControlLabel
-            
+           
          
             control={
               <Switch
@@ -250,7 +253,7 @@ const AddSale: React.FC = () => {
       </Box>
 
       <Button type="submit" variant="contained">
-        Confirm New Sale
+        Update Sale
       </Button>
       <Link to={"/sales"}>
         <Button variant="outlined">Go Back To List</Button>
@@ -259,4 +262,4 @@ const AddSale: React.FC = () => {
   );
 };
 
-export default AddSale;
+export default UpdateSale;

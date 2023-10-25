@@ -6,9 +6,11 @@ import EditEmployee from "../components/Forms/Employees/EditEmployee";
 import LoginForm from "../components/Forms/Login/Login";
 import { getEmployees } from "../middlewares/employees/get";
 import { useAppDispatch } from "../hooks/hooksRedux";
-import { employeesUpdater } from "../redux/reducer/actions";
+import { employeesUpdater, salesUpdater } from "../redux/reducer/actions";
 import AddSale from "../components/Forms/Sales/NewSale";
 import SalesList from "../components/Lists/Sales/SalesList";
+import UpdateSale from "../components/Forms/Sales/UpdateSale";
+import { getSales } from "../middlewares/sales/get";
 
 export const AppRouter = () => {
 const dispatch= useAppDispatch()
@@ -17,6 +19,8 @@ const dispatch= useAppDispatch()
   const getData = async () => {
     const emp = await getEmployees();
     dispatch(employeesUpdater(emp));
+    const sales = await getSales();
+    dispatch(salesUpdater(sales))
   };
 
 
@@ -41,6 +45,7 @@ if (isAuthenticatedString !== null) {
         <Route path={`/createEmployee`} element={<CreateEmployee />} />
         <Route path={`/editEmployee`} element={<EditEmployee refresh={getData}/>} />
         <Route path={'/addSale'} element={<AddSale />}/>
+        <Route path={`/updateSale`} element={<UpdateSale refresh={getData}/>} />
         <Route path={'/sales'} element={<SalesList setIsAuthenticated={setIsAuthenticated}/>}/>
         <Route path={`/`} element={<EmployeesList setIsAuthenticated={setIsAuthenticated}/>} />
         

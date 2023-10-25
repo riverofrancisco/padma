@@ -56,7 +56,7 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
           <div>{sale.cart[0].colour}</div>
           <div>{sale.cart[0].lateral}</div>
           <div>{sale.isDelivered}</div>
-          <Link to={"/editSale"}>
+          <Link to={"/updateSale"}>
             <Button variant="contained" color="secondary" value={sale.id} onClick={() => handleEdit(sale.id)}>
               Edit
             </Button>
