@@ -53,11 +53,6 @@ const AddSale: React.FC = () => {
         [name]: value,
       });
     }
-   
-    setSaleData({
-      ...saleData,
-      cart: [productData],
-    });
     console.log(saleData.cart[0].lateral);
   };
 
@@ -67,10 +62,7 @@ const AddSale: React.FC = () => {
       ...clientData,
       [name]: value,
     });
-    setSaleData({
-      ...saleData,
-      client: clientData,
-    });
+
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -81,6 +73,14 @@ const AddSale: React.FC = () => {
     setSaleData(blankSaleState);
     navigate("/sales");
   };
+
+  React.useEffect(() => {
+    setSaleData({
+      ...saleData,
+      client: clientData,
+      cart: [productData]
+    });
+  }, [productData, clientData]);
 
   return (
     <form onSubmit={handleSubmit}>

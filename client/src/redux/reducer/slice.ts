@@ -1,12 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Sale, Product, Client, blankClient, blankProduct, blankSaleState } from "../../interfaces/interfaces";
+import { Sale, Product, Client, blankClient, blankProduct } from "../../interfaces/interfaces";
+
+const blankSelectedSaleState = {
+    id: "",
+    cart: [blankProduct],
+    client: blankClient,
+    date: "",
+    delivery: {
+      company: "padma",
+      cost: 0,
+      date: "",
+    },
+    isDelivered: false,
+  };
 
 
 interface InitialState {
     value: number,
     status: string,
     employees: any,
-    sales: { list: Sale[], selectedSale: Sale},
+    sales: { list: Sale[], selectedSale: any},
     clients: Client[],
     products: Product[]
 }
@@ -24,7 +37,7 @@ employees: {
                         email: ""}},
 sales: {
     list: [],
-    selectedSale: blankSaleState},
+    selectedSale: blankSelectedSaleState},
 clients: []
 }
 

@@ -23,16 +23,16 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
   };
 
   const handleDelete = (id: string) => {
-    const filteredSales = sales.filter((employee: any) => employee.id !== id);
+    const filteredSales = sales.filter((sale: any) =>  sale.id !== id);
     dispatch(salesUpdater(filteredSales));
     deleteSale(id);
   };
 
   const handleEdit = (id: string) => {
-    const employeeToEdit = sales.filter(
-      (employee: any) => employee.id === id
+    const saleToEdit = sales.filter(
+      (sale: any) => sale.id === id
     )[0];
-    dispatch(saleSelector(employeeToEdit));
+    dispatch(saleSelector(saleToEdit));
   };
 
   React.useEffect(() => {

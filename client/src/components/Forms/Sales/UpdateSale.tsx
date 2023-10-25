@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
-import { salesUpdater} from "../../../redux/reducer/actions";
+import { salesUpdater } from "../../../redux/reducer/actions";
 import { Link, useNavigate } from "react-router-dom";
 import { Sale, Product, Client } from "../../../interfaces/interfaces";
 import { setSale } from "../../../middlewares/sales/edit";
 import { current } from "@reduxjs/toolkit";
 
-import { blankClient, blankSaleState, blankProduct } from "../../../interfaces/interfaces";
+import {
+  blankClient,
+  blankSaleState,
+  blankProduct,
+} from "../../../interfaces/interfaces";
 import {
   Box,
   InputAdornment,
@@ -22,23 +26,24 @@ import {
 } from "@mui/material/";
 
 interface Props {
-    refresh: any;
-  }
+  refresh: any;
+}
 
 const UpdateSale = ({ refresh }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const currentSale = useAppSelector((state) => state.global.sales.selectedSale);
+  const currentSale = useAppSelector(
+    (state) => state.global.sales.selectedSale
+  );
   const id = currentSale.id;
 
   const [clientData, setClientData] = useState<Client>(currentSale.client);
   const [productData, setProductData] = useState<Product>(currentSale.cart[0]);
   const [saleData, setSaleData] = useState<Sale>(currentSale);
 
-
   const handleProductChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if(name === "lateral"){
+    if (name === "lateral") {
       setProductData({
         ...productData,
         lateral: !productData.lateral,
@@ -49,12 +54,7 @@ const UpdateSale = ({ refresh }: Props) => {
         [name]: value,
       });
     }
-   
-    setSaleData({
-      ...saleData,
-      cart: [productData],
-    });
-    console.log(saleData.cart[0].lateral);
+    console.log(saleData.cart[0]);
   };
 
   const handleClientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,14 +63,12 @@ const UpdateSale = ({ refresh }: Props) => {
       ...clientData,
       [name]: value,
     });
-    setSaleData({
-      ...saleData,
-      client: clientData,
-    });
+   
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(productData)
     setSale(id, saleData);
     setSaleData(blankSaleState);
     setProductData(blankProduct);
@@ -79,11 +77,13 @@ const UpdateSale = ({ refresh }: Props) => {
     navigate("/sales");
   };
 
-
   React.useEffect(() => {
-    setSaleData(currentSale);
-  }, [currentSale]);
-
+    setSaleData({
+      ...saleData,
+      client: clientData,
+      cart: [productData]
+    });
+  }, [productData, clientData]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -238,8 +238,6 @@ const UpdateSale = ({ refresh }: Props) => {
             <FormHelperText>Length</FormHelperText>{" "}
           </FormControl>
           <FormControlLabel
-           
-         
             control={
               <Switch
                 name="lateral"
