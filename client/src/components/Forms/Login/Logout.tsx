@@ -1,6 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { logOut } from "../../../middlewares/auth/auth";
+import {Button} from "@mui/material/";
 
 interface Props {
   setIsAuthenticated: any;
@@ -36,13 +37,14 @@ const LogoutButton = ({ setIsAuthenticated }: Props) => {
   };
 
   return (
-    <button
-      style={{ marginLeft: "12px" }}
+    <Button
+     variant="contained"
+     color="error"
       className="muted-button"
       onClick={handleLogout}
     >
       Logout
-    </button>
+    </Button>
   );
 };
 
