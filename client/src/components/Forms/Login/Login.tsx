@@ -164,11 +164,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooksRedux";
 import Swal from "sweetalert2";
+
 import {
   signIn,
   signUp,
   singInWithGoogle,
 } from "../../../middlewares/auth/auth";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setIsAuthenticated: any;
@@ -200,6 +202,7 @@ export default function LoginForm({ setIsAuthenticated }: Props) {
     const activeElement = document.activeElement as HTMLInputElement;
     if (activeElement && activeElement.name === "Login") {
       try {
+
         signIn(loginData.email, loginData.password).then(() => {
           Swal.fire({
             timer: 1500,
@@ -272,7 +275,7 @@ export default function LoginForm({ setIsAuthenticated }: Props) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <Box
         sx={{

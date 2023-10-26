@@ -126,7 +126,8 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
 
   return sales[0] ? (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt:10 }}
+    
     >
       <Box
         sx={{

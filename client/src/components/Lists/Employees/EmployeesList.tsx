@@ -7,6 +7,21 @@ import EditEmployee from "../../Forms/Employees/EditEmployee";
 import LogoutButton from "../../Forms/Login/Logout";
 import { Link } from "react-router-dom";
 
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  IconButton,
+} from "@mui/material/";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 interface Props {
   setIsAuthenticated: any;
 }
@@ -42,7 +57,7 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
     getData();
   }, []);
   return employees[0] ? (
-    <div>
+    <Box mt={10}>
       <Link to={'/createEmployee'}><button>Create Employee</button></Link>
       <LogoutButton setIsAuthenticated={setIsAuthenticated}/>
 {employees.map((emp: any) => (
@@ -57,7 +72,7 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
       </div>
     ))}
     
-    </div>
+    </Box>
     
   ) : (
     <div>Loading...</div>
