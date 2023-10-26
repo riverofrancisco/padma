@@ -191,7 +191,7 @@ export default function NavBar() {
               sx={{
                 px: "10%",
                 transition: "background-color 0.3s ease, padding 0.3s ease",
-                bgcolor: !scrolling ? "transparent" : "brown",
+                bgcolor: !scrolling ? "transparent" : "purple",
                 py: !scrolling ? 1 : 0,
               }}
             >
