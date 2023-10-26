@@ -196,7 +196,20 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
                             </TableCell>
                           );
                         }
-                      } return (
+                      } else if (column.id == "company") {
+                        return (
+                          <TableCell key={newID}>
+                            {" "}
+                            <Box
+                              sx={{ display: "flex", flexDirection: "column" }}
+                            >
+                              <Box>{row.delivery[column.id]}</Box>{" "}
+                              <Box>$ {row.delivery.cost}</Box>
+                            </Box>
+                          </TableCell>
+                        );
+                      }
+                      return (
                         <TableCell key={newID}>
                           {" "}
                           {row[upValue][column.id]}

@@ -46,6 +46,22 @@ const UpdateSale = ({ refresh }: Props) => {
   const [productData, setProductData] = useState<Product>(currentSale.product);
   const [saleData, setSaleData] = useState<Sale>(currentSale);
 
+  const handleSaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if(name === "isDelivered"){
+      setSaleData({
+        ...saleData,
+        [name]: !saleData.isDelivered,
+      });
+    } else {
+      setSaleData({
+        ...saleData,
+        [name]: value,
+      });
+    }
+   
+  };
+
   const handleProductChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "lateral") {
@@ -102,7 +118,7 @@ const UpdateSale = ({ refresh }: Props) => {
   return (
     <form onSubmit={handleSubmit}>
     <Box sx={{ px: "15%", py: "5%" }} id="clientInfo">
-      <Box sx={{ display: "flex", flexDirection: "column", border: 0.5, borderRadius: 3, p:2, backgroundColor:"whitesmoke"  }}>
+      <Box sx={{ display: "flex", flexDirection: "column",  borderRadius: 3, p:2, backgroundColor:"whitesmoke"  }}>
         Client Info
         <Box>
           <TextField
@@ -254,7 +270,7 @@ const UpdateSale = ({ refresh }: Props) => {
               <FormHelperText>Length</FormHelperText>{" "}
             </FormControl>
             <FormControlLabel
-              sx={{ mx: 3 }}
+              sx={{ mx: 1 }}
               control={
                 <Switch
                   name="lateral"
@@ -264,6 +280,18 @@ const UpdateSale = ({ refresh }: Props) => {
               }
               label="Lateral"
             />
+            <FormControlLabel
+                sx={{ mx: 1 }}
+                control={
+                  <Switch
+                    name="isDelivered"
+                    checked={saleData.isDelivered}
+                    onChange={handleSaleChange}
+                    color="success"
+                  />
+                }
+                label="Delivered"
+              />
           </Box>
           Delivery Info
           <Box>

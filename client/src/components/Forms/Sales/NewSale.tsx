@@ -41,10 +41,18 @@ const AddSale: React.FC = () => {
 
   const handleSaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setSaleData({
-      ...saleData,
-      [name]: value,
-    });
+    if(name === "isDelivered"){
+      setSaleData({
+        ...saleData,
+        [name]: !saleData.isDelivered,
+      });
+    } else {
+      setSaleData({
+        ...saleData,
+        [name]: value,
+      });
+    }
+   
   };
 
   const handleProductChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +108,7 @@ const AddSale: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box sx={{ px: "15%", py: "5%" }} id="clientInfo">
-        <Box sx={{ display: "flex", flexDirection: "column", border: 0.5, borderRadius: 3, p:2, backgroundColor:"whitesmoke"  }}>
+        <Box sx={{ display: "flex", flexDirection: "column",  borderRadius: 3, p:2, backgroundColor:"whitesmoke"  }}>
           Client Info
           <Box>
             <TextField
@@ -252,7 +260,7 @@ const AddSale: React.FC = () => {
                 <FormHelperText>Length</FormHelperText>{" "}
               </FormControl>
               <FormControlLabel
-                sx={{ mx: 3 }}
+                sx={{ mx: 1 }}
                 control={
                   <Switch
                     name="lateral"
@@ -261,6 +269,18 @@ const AddSale: React.FC = () => {
                   />
                 }
                 label="Lateral"
+              />
+              <FormControlLabel
+                sx={{ mx: 1 }}
+                control={
+                  <Switch
+                    name="isDelivered"
+                    checked={saleData.isDelivered}
+                    onChange={handleSaleChange}
+                    color="success"
+                  />
+                }
+                label="Delivered"
               />
             </Box>
             Delivery Info
