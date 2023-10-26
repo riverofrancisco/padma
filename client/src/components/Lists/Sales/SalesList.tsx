@@ -18,10 +18,9 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  IconButton
-
+  IconButton,
 } from "@mui/material/";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
   setIsAuthenticated: any;
@@ -29,7 +28,7 @@ interface Props {
 
 interface Column {
   id: string;
-  upper?: "client" | "product"| "delivery";
+  upper?: "client" | "product" | "delivery";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -37,8 +36,20 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "name",  upper: "client", label: "Full Name",  align: "left",  minWidth: 170 },
-  { id: "address",  upper: "client",label: "Address", align: "left", minWidth: 100 },
+  {
+    id: "name",
+    upper: "client",
+    label: "Full Name",
+    align: "left",
+    minWidth: 170,
+  },
+  {
+    id: "address",
+    upper: "client",
+    label: "Address",
+    align: "left",
+    minWidth: 100,
+  },
   {
     id: "model",
     upper: "product",
@@ -48,28 +59,25 @@ const columns: readonly Column[] = [
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "colour", upper: "product",
+    id: "colour",
+    upper: "product",
     label: "Colour",
     minWidth: 50,
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "lateral", upper: "product",
+    id: "lateral",
+    upper: "product",
     label: "With Lateral",
     minWidth: 50,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  {
-    id: "isDelivered",
-    label: "Estado",
-    minWidth: 50,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
+
   {
     id: "date",
+    upper: "delivery",
     label: "Date Agreed",
     minWidth: 50,
     align: "center",
@@ -77,6 +85,7 @@ const columns: readonly Column[] = [
   },
   {
     id: "company",
+    upper: "delivery",
     label: "Delivery Details",
     minWidth: 50,
     align: "center",
@@ -116,19 +125,27 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
   }, []);
 
   return sales[0] ? (
-    <Box sx={{display: "flex", flexDirection:"column", alignItems: "center"}}>
-    <Box sx={{py:2, display: "flex", justifyContent:"space-between", width:"40%"}}><Link to={"/addSale"}>
-        <Button variant="contained">Add New Sale</Button>
-      </Link>
-      <LogoutButton setIsAuthenticated={setIsAuthenticated} />
-      </Box>  
-      <Paper sx={{ width: "90%", overflow: "hidden" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <Box
+        sx={{
+          py: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          width: "40%",
+        }}
+      >
+        <Link to={"/addSale"}>
+          <Button variant="contained">Add New Sale</Button>
+        </Link>
+        <LogoutButton setIsAuthenticated={setIsAuthenticated} />
+      </Box>
+      <Paper sx={{ overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <TableHead>
             <TableRow>
-            
               {columns.map((column) => (
-                
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -137,13 +154,9 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell
-              key="actions"
-              align="center"
-              style={{ minWidth: 100}}
-            >
-              Actions
-            </TableCell>
+              <TableCell key="actions" align="center" style={{ minWidth: 100 }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
 
@@ -154,44 +167,76 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
                   hover
                   style={{
                     height: 20,
-            
                   }}
                   role="checkbox"
                   tabIndex={-1}
-                  key={row.client.name}
-                  
+                  key={row.id}
                 >
-                  
-                
-                  <TableCell key={row.id} align={"left"}>
-                  {row.client.lastName}, {row.client.name}
-                  </TableCell>
-                  <TableCell key={row.id} align={"left"}>{row.client.address}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.product.model}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.product.colour}</TableCell>
-                  <TableCell key={row.id} align={"center"}>{row.product.lateral ? "Sí" : ""}</TableCell>
-                  <TableCell key={row.id} align={"center"}>
-                    {row.isDelivered ? "Entregado" : "Pendiente de Entrega"}
-                  </TableCell >
-                  <Box sx={{ display: "flex",  alignItems: "center", py:1}}>
-                  <Link to={"/updateSale"}>
-                    <Button
-                      variant="contained"
-                      color="secondary"
+                  {columns.map((column) => {
+                    const upValue = column.upper;
+                    console.log(upValue);
+                    const newID: string = column.id + row.id;
+
+                    if (typeof upValue == "string") {
+                      if (upValue == "client") {
+                        if (column.id == "name") {
+                          return (
+                            <TableCell key={newID}>
+                              {" "}
+                              {row.client.lastName}, {row[upValue][column.id]}
+                            </TableCell>
+                          );
+                        }
+                      } else if (upValue == "product") {
+                        if (column.id == "lateral") {
+                          return (
+                            <TableCell key={newID}>
+                              {" "}
+                              {row.product.lateral ? "Sí" : "No"}
+                            </TableCell>
+                          );
+                        }
+                      } return (
+                        <TableCell key={newID}>
+                          {" "}
+                          {row[upValue][column.id]}
+                        </TableCell>
+                      );
+                    } else if (column.id == "isDelivered") {
+                      return (
+                        <TableCell key={newID}>
+                          {" "}
+                          {row[column.id]
+                            ? "Entregado"
+                            : "Pendiente de Entrega"}
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell key={newID}> {row[column.id]}</TableCell>
+                      );
+                    }
+                  })}
+
+                  <Box sx={{ display: "flex", alignItems: "center", py: 1 }}>
+                    <Link to={"/updateSale"}>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        value={row.id}
+                        onClick={() => handleEdit(row.id)}
+                        size="small"
+                        sx={{ borderRadius: 5, mx: 0.5 }}
+                      >
+                        Edit
+                      </Button>
+                    </Link>
+                    <IconButton
                       value={row.id}
-                      onClick={() => handleEdit(row.id)}
-                      size="small"
-                      sx={{borderRadius: 5, mx: 0.5}}
+                      onClick={() => handleDelete(row.id)}
                     >
-                      Edit
-                    </Button>
-                  </Link>
-                  <IconButton
-                    value={row.id}
-                    onClick={() => handleDelete(row.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                      <DeleteIcon />
+                    </IconButton>
                   </Box>
                 </TableRow>
               );
@@ -199,7 +244,6 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
           </TableBody>
         </TableContainer>
       </Paper>
-
     </Box>
   ) : (
     <div>Loading...</div>
