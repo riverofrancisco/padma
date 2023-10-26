@@ -76,6 +76,7 @@ const AddSale: React.FC = () => {
       ...deliveryData,
       [name]: value,
     });
+    console.log(typeof value)
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -94,7 +95,7 @@ const AddSale: React.FC = () => {
       product: productData,
       delivery: deliveryData,
     });
-  }, [productData, clientData]);
+  }, [productData, clientData, deliveryData]);
 
   return (
     <form onSubmit={handleSubmit}>

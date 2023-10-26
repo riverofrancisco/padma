@@ -97,7 +97,7 @@ const UpdateSale = ({ refresh }: Props) => {
       product: productData,
       delivery: deliveryData
     });
-  }, [productData, clientData]);
+  }, [productData, clientData, deliveryData]);
 
   return (
     <form onSubmit={handleSubmit}>
