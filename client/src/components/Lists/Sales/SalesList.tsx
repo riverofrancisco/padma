@@ -21,6 +21,8 @@ import {
   IconButton,
 } from "@mui/material/";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface Props {
   setIsAuthenticated: any;
@@ -109,16 +111,23 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
     dispatch(salesUpdater(emp));
   };
 
+  //Delete
   const handleDelete = (id: string) => {
     const filteredSales = sales.filter((sale: any) => sale.id !== id);
     dispatch(salesUpdater(filteredSales));
     deleteSale(id);
   };
 
+  //Edit
   const handleEdit = (id: string) => {
     const saleToEdit = sales.filter((sale: any) => sale.id === id)[0];
     dispatch(saleSelector(saleToEdit));
   };
+
+  //More
+  const handleMore = (id: string) => {
+    console.log(id)
+  }
 
   React.useEffect(() => {
     getData();
@@ -234,22 +243,28 @@ const SalesList = ({ setIsAuthenticated }: Props) => {
 
                   <Box sx={{ display: "flex", alignItems: "center", py: 1 }}>
                     <Link to={"/updateSale"}>
-                      <Button
-                        variant="contained"
+                      <IconButton
+                      
                         color="secondary"
                         value={row.id}
                         onClick={() => handleEdit(row.id)}
                         size="small"
-                        sx={{ borderRadius: 5, mx: 0.5 }}
+                  
                       >
-                        Edit
-                      </Button>
+                        <EditIcon />
+                      </IconButton>
                     </Link>
                     <IconButton
                       value={row.id}
                       onClick={() => handleDelete(row.id)}
                     >
                       <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      value={row.id}
+                      onClick={() => handleMore(row.id)}
+                    >
+                      <MoreVertIcon />
                     </IconButton>
                   </Box>
                 </TableRow>

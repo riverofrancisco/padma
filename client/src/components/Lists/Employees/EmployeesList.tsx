@@ -21,6 +21,7 @@ import {
   IconButton,
 } from "@mui/material/";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
 
 interface Props {
   setIsAuthenticated: any;
@@ -67,7 +68,7 @@ const EmployeesList = ({ setIsAuthenticated }: Props) => {
         <div>{emp.lastName}</div>
         <div>{emp.email}</div>
 
-        <Link to={'/editEmployee'}><button value={emp.id} onClick={()=> handleEdit(emp.id)} >Edit</button></Link>
+        <Link to={'/editEmployee'}><button value={emp.id} onClick={()=> handleEdit(emp.id)} ><EditIcon /></button></Link>
         <button value={emp.id} onClick={()=> handleDelete(emp.id)}>X</button>
       </div>
     ))}

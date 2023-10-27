@@ -216,7 +216,7 @@ export default function NavBar() {
                   }}
                 >
                   <img
-                    width={20}
+                    width={45}
                     src={
                       "https://d22fxaf9t8d39k.cloudfront.net/725c40f909c3ac656356863e228ebf2ef527346960fe07b8ff17a120581fb931128546.jpeg"
                     }
